@@ -1,8 +1,10 @@
 package post
 
 import (
-	"net/http"
+	"log"
 
+	"github.com/gin-gonic/gin"
+	"github.com/ipe-dev/go-project/database"
 	"github.com/ipe-dev/go-project/packages/comment"
 )
 
@@ -14,11 +16,18 @@ type Post struct {
 	Comment  []comment.Comment `json:"comments"`
 }
 
-func New() *Post {
-	return &Post{}
-}
-func Create(r *http.Request) error {
-
+func Create(c *gin.Context) error {
+	var post Post
+	if err := c.BindJSON(&post); err != nil {
+		log.Println(err)
+		return err
+	}
+	Db := database.Db
+	err := Db.Create(&post).Error
+	if err != nil {
+		log.Println(err)
+	}
+	return err
 }
 
 func Update() {

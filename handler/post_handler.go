@@ -9,11 +9,12 @@ import (
 
 func CreatePost() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		//
-		e := post.Create(c.Request)
-		c.JSON(http.StatusOK, gin.H{
-			"hoge": "fuga",
-		})
+		e := post.Create(c)
+		if e != nil {
+			c.JSON(http.StatusBadRequest, gin.H{})
+		} else {
+			c.JSON(http.StatusOK, gin.H{})
+		}
 	}
 }
 
