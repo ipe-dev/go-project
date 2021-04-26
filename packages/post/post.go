@@ -34,8 +34,21 @@ func Update() {
 
 }
 
-func Get() {
-
+func Get(c *gin.Context) (Post, error) {
+	var request GetRequest
+	var post Post
+	err := c.BindJSON(&request)
+	if err != nil {
+		log.Println(err)
+		return post, err
+	}
+	Db := database.Db
+	err = Db.Where("id = $1", request.ID).First(&post).Error
+	if err != nil {
+		log.Println(err)
+		return post, err
+	}
+	return post, err
 }
 
 func Delete() {

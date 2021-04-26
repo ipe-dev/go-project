@@ -5,3 +5,7 @@ type CreateRequest struct {
 	UserName string `json:"user_name"`
 	Content  string `json:"content"`
 }
+
+type GetRequest struct {
+	ID int `json:"id"`
+}

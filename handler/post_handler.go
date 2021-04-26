@@ -20,8 +20,11 @@ func CreatePost() gin.HandlerFunc {
 
 func GetPost() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"hoge": "fuga",
-		})
+		p, e := post.Get(c)
+		if e != nil {
+			c.JSON(http.StatusBadRequest, gin.H{})
+		} else {
+			c.JSON(http.StatusOK, p)
+		}
 	}
 }
