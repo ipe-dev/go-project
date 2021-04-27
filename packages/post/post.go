@@ -18,20 +18,35 @@ type Post struct {
 
 func Create(c *gin.Context) error {
 	var post Post
-	if err := c.BindJSON(&post); err != nil {
+	var err error
+	err = c.BindJSON(&post)
+	if err != nil {
 		log.Println(err)
 		return err
 	}
 	Db := database.Db
-	err := Db.Create(&post).Error
+	err = Db.Create(&post).Error
 	if err != nil {
 		log.Println(err)
 	}
 	return err
 }
 
-func Update() {
-
+func Update(c *gin.Context) error {
+	var post Post
+	var err error
+	err = c.BindJSON(&post)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	Db := database.Db
+	err = Db.Model(&post).Updates(post).Error
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return err
 }
 
 func Get(c *gin.Context) (Post, error) {

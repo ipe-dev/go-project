@@ -14,5 +14,6 @@ func main() {
 	r := gin.Default()
 	r.POST("/api/post/create", handler.CreatePost())
 	r.POST("/api/post/get", handler.GetPost())
+	r.POST("/api/post/update", handler.UpdatePost())
 	r.Run()
 }

@@ -28,3 +28,13 @@ func GetPost() gin.HandlerFunc {
 		}
 	}
 }
+func UpdatePost() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		e := post.Update(c)
+		if e != nil {
+			c.JSON(http.StatusBadRequest, gin.H{})
+		} else {
+			c.JSON(http.StatusOK, gin.H{})
+		}
+	}
+}
