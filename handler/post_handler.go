@@ -38,3 +38,13 @@ func UpdatePost() gin.HandlerFunc {
 		}
 	}
 }
+func DeletePost() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		e := post.Delete(c)
+		if e != nil {
+			c.JSON(http.StatusBadRequest, gin.H{})
+		} else {
+			c.JSON(http.StatusOK, gin.H{})
+		}
+	}
+}
