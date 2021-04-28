@@ -16,9 +16,8 @@ type Post struct {
 	Comment  []comment.Comment `json:"comments"`
 }
 
-func Create(c *gin.Context) error {
+func Create(c *gin.Context) (err error) {
 	var post Post
-	var err error
 	err = c.BindJSON(&post)
 	if err != nil {
 		log.Println(err)
@@ -32,52 +31,70 @@ func Create(c *gin.Context) error {
 	return err
 }
 
-func Update(c *gin.Context) error {
+func Update(c *gin.Context) (err error) {
 	var post Post
-	var err error
 	err = c.BindJSON(&post)
 	if err != nil {
 		log.Println(err)
-		return err
+		return
 	}
 	Db := database.Db
 	err = Db.Model(&post).Updates(post).Error
 	if err != nil {
 		log.Println(err)
-		return err
+		return
 	}
-	return err
+	return
 }
 
-func Get(c *gin.Context) (Post, error) {
+func Get(c *gin.Context) (post Post, err error) {
 	var request GetRequest
-	var post Post
-	err := c.BindJSON(&request)
+	err = c.BindJSON(&request)
 	if err != nil {
 		log.Println(err)
-		return post, err
+		return
 	}
 	Db := database.Db
 	err = Db.Where("id = $1", request.ID).First(&post).Error
 	if err != nil {
 		log.Println(err)
-		return post, err
+		return
 	}
-	return post, err
+	return
 }
 
-func Delete(c *gin.Context) error {
+func Delete(c *gin.Context) (err error) {
 	var post Post
-	err := c.BindJSON(&post)
+	err = c.BindJSON(&post)
 	if err != nil {
 		log.Println(err)
-		return err
+		return
 	}
 	Db := database.Db
 	err = Db.Delete(post).Error
 	if err != nil {
 		log.Println(err)
-		return err
+		return
 	}
-	return err
+	return
+}
+
+func List(c *gin.Context) (posts []Post, err error) {
+	var request ListRequest
+	err = c.BindJSON(&request)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	Db := database.Db
+	Db = Db.Table("posts")
+	if request.Word != "" {
+		Db.Where("title like %$1%", request.Word)
+	}
+	err = Db.Find(&posts).Error
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	return
 }
