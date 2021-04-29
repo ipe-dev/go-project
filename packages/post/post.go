@@ -9,11 +9,12 @@ import (
 )
 
 type Post struct {
-	ID       int               `json:"id"`
-	Title    string            `json:"title"`
-	UserName string            `json:"user_name"`
-	Content  string            `json:"content"`
-	Comment  []comment.Comment `json:"comments"`
+	ID         int               `json:"id"`
+	Title      string            `json:"title"`
+	UserName   string            `json:"user_name"`
+	Content    string            `json:"content"`
+	Comment    []comment.Comment `json:"comments"`
+	CreateDate string            `json:"create_date"`
 }
 
 func Create(c *gin.Context) (err error) {
