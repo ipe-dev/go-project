@@ -18,13 +18,13 @@ func CreateComment() gin.HandlerFunc {
 	}
 }
 
-// func GetComment() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		p, e := comment.Get(c)
-// 		if e != nil {
-// 			c.JSON(http.StatusBadRequest, gin.H{})
-// 		} else {
-// 			c.JSON(http.StatusOK, p)
-// 		}
-// 	}
-// }
+func GetComment() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		com, e := comment.Get(c)
+		if e != nil {
+			c.JSON(http.StatusBadRequest, gin.H{})
+		} else {
+			c.JSON(http.StatusOK, com)
+		}
+	}
+}

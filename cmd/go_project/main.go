@@ -18,6 +18,7 @@ func main() {
 	r.POST("/api/post/delete", handler.DeletePost())
 	r.POST("/api/post/list", handler.ListPost())
 	r.POST("/api/comment/create", handler.CreateComment())
+	r.POST("/api/comment/get", handler.GetComment())
 
 	r.Run()
 }

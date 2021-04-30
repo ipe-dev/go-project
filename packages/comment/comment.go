@@ -44,9 +44,21 @@ func Update() {
 
 }
 
-// func Get(c *gin.Context) {
-
-// }
+func Get(c *gin.Context) (comment Comment, err error) {
+	var request GetCommentRequest
+	err = c.BindJSON(&request)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	Db := database.Db
+	err = Db.Table("comments").Where("id = $1", request.Id).First(&comment).Error
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	return
+}
 
 func Delete() {
 
