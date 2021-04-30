@@ -60,6 +60,18 @@ func Get(c *gin.Context) (comment Comment, err error) {
 	return
 }
 
-func Delete() {
-
+func Delete(c *gin.Context) (err error) {
+	var comment Comment
+	err = c.BindJSON(&comment)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	Db := database.Db
+	err = Db.Delete(comment).Error
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	return
 }

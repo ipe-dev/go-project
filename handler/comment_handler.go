@@ -11,7 +11,7 @@ func CreateComment() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		e := comment.Create(c)
 		if e != nil {
-			c.JSON(http.StatusBadRequest, gin.H{})
+			c.JSON(http.StatusInternalServerError, gin.H{})
 		} else {
 			c.JSON(http.StatusOK, gin.H{})
 		}
@@ -22,9 +22,19 @@ func GetComment() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		com, e := comment.Get(c)
 		if e != nil {
-			c.JSON(http.StatusBadRequest, gin.H{})
+			c.JSON(http.StatusInternalServerError, gin.H{})
 		} else {
 			c.JSON(http.StatusOK, com)
+		}
+	}
+}
+func DeleteComment() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		e := comment.Delete(c)
+		if e != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{})
+		} else {
+			c.JSON(http.StatusOK, gin.H{})
 		}
 	}
 }
