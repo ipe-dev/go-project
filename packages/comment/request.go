@@ -1,4 +1,5 @@
 package comment
 
-type Request struct {
+type GetCommentRequest struct {
+	Id int `json:"id"`
 }
