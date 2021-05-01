@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/ipe-dev/go-project/database"
-	"github.com/ipe-dev/go-project/handler"
+	"github.com/ipe-dev/go-project/route"
 )
 
 func init() {
@@ -12,15 +12,7 @@ func init() {
 
 func main() {
 	r := gin.Default()
-	r.POST("/api/post/create", handler.CreatePost())
-	r.POST("/api/post/get", handler.GetPost())
-	r.POST("/api/post/update", handler.UpdatePost())
-	r.POST("/api/post/delete", handler.DeletePost())
-	r.POST("/api/post/list", handler.ListPost())
-	r.POST("/api/comment/create", handler.CreateComment())
-	r.POST("/api/comment/get", handler.GetComment())
-	r.POST("/api/comment/delete", handler.DeleteComment())
-	r.POST("/api/comment/update", handler.UpdateComment())
+	route.DefineRoutes(r)
 
 	r.Run()
 }
