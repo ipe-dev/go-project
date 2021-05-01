@@ -20,6 +20,7 @@ func main() {
 	r.POST("/api/comment/create", handler.CreateComment())
 	r.POST("/api/comment/get", handler.GetComment())
 	r.POST("/api/comment/delete", handler.DeleteComment())
+	r.POST("/api/comment/update", handler.UpdateComment())
 
 	r.Run()
 }

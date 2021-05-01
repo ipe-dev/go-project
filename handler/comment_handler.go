@@ -38,3 +38,13 @@ func DeleteComment() gin.HandlerFunc {
 		}
 	}
 }
+func UpdateComment() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		e := comment.Update(c)
+		if e != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{})
+		} else {
+			c.JSON(http.StatusOK, gin.H{})
+		}
+	}
+}

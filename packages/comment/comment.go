@@ -40,7 +40,20 @@ func Create(c *gin.Context) (err error) {
 
 }
 
-func Update() {
+func Update(c *gin.Context) (err error) {
+	var comment Comment
+	Db := database.Db
+	err = c.BindJSON(&comment)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = Db.Model(&comment).Update(comment).Error
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	return
 
 }
 
