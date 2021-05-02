@@ -2,6 +2,7 @@ package post
 
 import (
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ipe-dev/go-project/database"
@@ -11,7 +12,7 @@ import (
 type Post struct {
 	ID         int               `json:"id"`
 	Title      string            `json:"title"`
-	UserName   string            `json:"user_name"`
+	UserId     int               `json:"user_id"`
 	Content    string            `json:"content"`
 	Comment    []comment.Comment `json:"comments"`
 	CreateDate string            `json:"create_date"`
@@ -25,6 +26,7 @@ func Create(c *gin.Context) (err error) {
 		return err
 	}
 	Db := database.Db
+	post.CreateDate = time.Now().Format("2006/01/02 15:05:05")
 	err = Db.Create(&post).Error
 	if err != nil {
 		log.Println(err)
