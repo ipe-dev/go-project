@@ -21,5 +21,12 @@ func DefineRoutes(r gin.IRouter) {
 		comment.POST("/update", handler.UpdateComment())
 		comment.POST("/delete", handler.DeleteComment())
 	}
+	user := r.Group("/api/user")
+	{
+		user.POST("/get", handler.GetUser())
+		user.POST("/create", handler.CreateUser())
+		user.POST("/update", handler.UpdateUser())
+		user.POST("/delete", handler.DeleteUser())
+	}
 
 }
