@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-	ID         int    `json:"id"`
+	ID         int    `json:"id" gorm:"primary_key"`
 	LoginID    string `json:"login_id" binding:"required"`
 	Password   string `json:"password" binding:"required"`
 	Name       string `json:"name" binding:"required"`
@@ -89,14 +89,15 @@ func List(c *gin.Context) (users []User, err error) {
 	Db := database.Db
 	Db.Table("users")
 	if request.LoginID != "" {
-		Db.Where("login_id like `%$1%`", request.LoginID)
+		Db = Db.Where("login_id LIKE ?", "%"+request.LoginID+"%")
 	}
 	if request.Word != "" {
-		Db.Where(
-			Db.Where("name like `%$1%`", request.Word).Or("detail like `%$1%`", request.Word),
-		)
+		Db = Db.Where("name LIKE ? OR detail LIKE ?", "%"+request.Word+"%", "%"+request.Word+"%")
 	}
-	Db.Find(&users)
+	if request.RankID != 0 {
+		Db = Db.Where("rank_id", request.RankID)
+	}
+	Db.Debug().Find(&users)
 
 	return
 }

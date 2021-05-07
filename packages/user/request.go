@@ -6,4 +6,5 @@ type GetUserReqest struct {
 type GetListUserReqest struct {
 	Word    string `json:"word"`
 	LoginID string `json:"login_id"`
+	RankID  int    `json:"rank_id"`
 }

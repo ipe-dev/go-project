@@ -27,6 +27,7 @@ func DefineRoutes(r gin.IRouter) {
 		user.POST("/create", handler.CreateUser())
 		user.POST("/update", handler.UpdateUser())
 		user.POST("/delete", handler.DeleteUser())
+		user.POST("/list", handler.ListUser())
 	}
 
 }
