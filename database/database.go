@@ -1,15 +1,17 @@
 package database
 
 import (
-	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 var Db *gorm.DB
 
 func Connect() {
 	var err error
-	Db, err = gorm.Open("postgres", "user=root dbname=go_project password=go_project sslmode=disable")
+	dsn := "host=localhost user=root dbname=go_project password=go_project sslmode=disable"
+	Db, err = gorm.Open(postgres.Open(dsn))
 	if err != nil {
 		panic(err)
 	}
