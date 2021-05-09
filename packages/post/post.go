@@ -2,19 +2,22 @@ package post
 
 import (
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ipe-dev/go-project/database"
 	"github.com/ipe-dev/go-project/packages/comment"
+	"github.com/ipe-dev/go-project/packages/user"
 )
 
 type Post struct {
 	ID         int               `json:"id"`
 	Title      string            `json:"title"`
-	UserName   string            `json:"user_name"`
+	UserID     int               `json:"user_id"`
 	Content    string            `json:"content"`
 	Comment    []comment.Comment `json:"comments"`
 	CreateDate string            `json:"create_date"`
+	User       user.User         `gorm:"foreignKey:UserID"`
 }
 
 func Create(c *gin.Context) (err error) {
@@ -25,6 +28,7 @@ func Create(c *gin.Context) (err error) {
 		return err
 	}
 	Db := database.Db
+	post.CreateDate = time.Now().Format("2006/01/02 15:05:05")
 	err = Db.Create(&post).Error
 	if err != nil {
 		log.Println(err)
@@ -56,7 +60,10 @@ func Get(c *gin.Context) (post Post, err error) {
 		return
 	}
 	Db := database.Db
-	err = Db.Where("id = $1", request.ID).First(&post).Error
+
+	Db.Model(&post).Association("users")
+
+	err = Db.Where("id = $1", request.ID).Preload("User").Find(&post).Error
 	if err != nil {
 		log.Println(err)
 		return
