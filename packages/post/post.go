@@ -7,15 +7,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ipe-dev/go-project/database"
 	"github.com/ipe-dev/go-project/packages/comment"
+	"github.com/ipe-dev/go-project/packages/user"
 )
 
 type Post struct {
 	ID         int               `json:"id"`
 	Title      string            `json:"title"`
-	UserId     int               `json:"user_id"`
+	UserID     int               `json:"user_id"`
 	Content    string            `json:"content"`
 	Comment    []comment.Comment `json:"comments"`
 	CreateDate string            `json:"create_date"`
+	User       user.User         `gorm:"foreignKey:UserID"`
 }
 
 func Create(c *gin.Context) (err error) {
@@ -58,7 +60,10 @@ func Get(c *gin.Context) (post Post, err error) {
 		return
 	}
 	Db := database.Db
-	err = Db.Where("id = $1", request.ID).First(&post).Error
+
+	Db.Model(&post).Association("users")
+
+	err = Db.Where("id = $1", request.ID).Preload("User").Find(&post).Error
 	if err != nil {
 		log.Println(err)
 		return
