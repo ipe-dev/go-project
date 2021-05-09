@@ -48,7 +48,7 @@ func Update(c *gin.Context) (err error) {
 		log.Println(err)
 		return
 	}
-	err = Db.Model(&comment).Update(comment).Error
+	err = Db.Model(&comment).Updates(comment).Error
 	if err != nil {
 		log.Println(err)
 		return
