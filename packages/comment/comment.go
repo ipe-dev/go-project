@@ -7,14 +7,16 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ipe-dev/go-project/database"
+	"github.com/ipe-dev/go-project/packages/user"
 )
 
 type Comment struct {
-	ID         int    `json:"id"`
-	PostId     int    `json:"post_id"`
-	UserId     int    `json:"user_id"`
-	Content    string `json:"content"`
-	CreateDate string `json:"create_date"`
+	ID         int       `json:"id"`
+	PostID     int       `json:"post_id"`
+	UserID     int       `json:"user_id"`
+	Content    string    `json:"content"`
+	CreateDate string    `json:"create_date"`
+	User       user.User `json:"user"`
 }
 
 func Create(c *gin.Context) (err error) {
