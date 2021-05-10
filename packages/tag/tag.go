@@ -16,33 +16,41 @@ type Tag struct {
 
 func Create(c *gin.Context) (err error) {
 	var tag Tag
+	Db := database.Db
 	err = c.BindJSON(&tag)
+	tx := Db.Begin()
 	tag.CreateDate = time.Now().Format("2006/01/02 15:05:05")
 
 	if err != nil {
+		tx.Rollback()
 		return
 	}
-	Db := database.Db
 	err = Db.Create(tag).Error
 	if err != nil {
+		tx.Rollback()
 		log.Println(err)
 		return
 	}
+	tx.Commit()
 	return
 }
 
 func Delete(c *gin.Context) (err error) {
 	var tag Tag
+	Db := database.Db
+	tx := Db.Begin()
 	err = c.BindJSON(&tag)
 	if err != nil {
+		tx.Rollback()
 		return
 	}
-	Db := database.Db
 	err = Db.Delete(tag).Error
 	if err != nil {
+		tx.Rollback()
 		log.Println(err)
 		return
 	}
+	tx.Commit()
 	return
 }
 
