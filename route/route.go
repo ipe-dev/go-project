@@ -29,5 +29,11 @@ func DefineRoutes(r gin.IRouter) {
 		user.POST("/delete", handler.DeleteUser())
 		user.POST("/list", handler.ListUser())
 	}
+	tag := r.Group("/api/tag")
+	{
+		tag.POST("/create", handler.CreateUser())
+		tag.POST("/delete", handler.DeleteUser())
+		tag.POST("/list", handler.ListUser())
+	}
 
 }
