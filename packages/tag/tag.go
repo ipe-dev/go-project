@@ -6,12 +6,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ipe-dev/go-project/database"
+	"github.com/ipe-dev/go-project/packages/post"
 )
 
 type Tag struct {
-	ID         int    `json:"id"`
-	Name       string `json:"name" binding:"required"`
-	CreateDate string `json:"create_date"`
+	ID         int         `json:"id"`
+	Name       string      `json:"name" binding:"required"`
+	CreateDate string      `json:"create_date"`
+	Posts      []post.Post `gorm:"many2many:post_tags"`
 }
 
 func Create(c *gin.Context) (err error) {
